@@ -1,25 +1,16 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  ParseUUIDPipe,
-  Post,
-  Patch,
-} from '@nestjs/common';
+import { Controller, Get, Post, 
+  Body, Patch, Param, 
+  ParseUUIDPipe, Delete, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { TodoService } from './todo.service';
 
 @Controller('api/v1/todos')
-@ApiTags('todos')
+@ApiTags('ToDo')
 export class TodoController {
   constructor(
-    private readonly todoService: TodoService
+    private todoService: TodoService
   ) {}
 
   @Post()

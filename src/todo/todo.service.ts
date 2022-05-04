@@ -10,7 +10,7 @@ export class TodoService {
 
   constructor(
     @InjectRepository(TodoEntity)
-    private readonly todoRepository: Repository<TodoEntity>,
+    private todoRepository: Repository<TodoEntity>,
   ) {}
 
   async create(createTodoDto: CreateTodoDto) {
@@ -19,7 +19,7 @@ export class TodoService {
 
   async findAll(): Promise<TodoEntity[]> {
     return await this.todoRepository.find({
-      createdAt: 'DESC'
+      order: { createdAt: 'DESC' }
     });
   }
 
