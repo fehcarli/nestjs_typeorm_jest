@@ -38,8 +38,5 @@ export class TodoEntity {
     this.uuid = todo?.uuid;
     this.task = todo?.task;
     this.isDone = todo?.isDone;
-    this.createdAt = todo?.createdAt;
-    this.updatedAt = todo?.updatedAt;
-    this.deletedAt = todo?.deletedAt;
   }
 }

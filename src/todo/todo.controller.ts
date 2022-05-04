@@ -34,8 +34,8 @@ export class TodoController {
     status: 400,
     description: 'Parâmetros inválidos',
   })
-  async create(@Body() CreateTodoDto: CreateTodoDto) {
-    return await this.todoService.create(CreateTodoDto);
+  create(@Body() CreateTodoDto: CreateTodoDto) {
+    return this.todoService.create(CreateTodoDto);
   }
 
   @Get()
@@ -63,8 +63,7 @@ export class TodoController {
     status: 404,
     description: 'Task não foi encontrada',
   })
-  @Get(':uuid')
-  async findOne(@Param('uuid', new ParseUUIDPipe()) uuid: string) {
+  findOne(@Param('uuid', new ParseUUIDPipe()) uuid: string) {
     return this.todoService.findOne(uuid);
   }
 
@@ -84,15 +83,18 @@ export class TodoController {
     status: 404,
     description: 'Task não foi encontrada',
   })
-  @Patch(':uuid')
   update(@Param('uuid', new ParseUUIDPipe()) uuid: string, @Body() updateTodoDto: UpdateTodoDto) {
     return this.todoService.update(uuid, updateTodoDto);
   }
 
   @Delete(':uuid')
   @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiOperation({ summary: 'Remover uma tarefa' })
-  @ApiResponse({ status: 204, description: 'Tarefa removida com sucesso' })
+  @ApiOperation({ 
+    summary: 'Remover uma tarefa' 
+  })
+  @ApiResponse({ 
+    status: 204, description: 'Tarefa removida com sucesso' 
+  })
   @ApiResponse({
     status: 404,
     description: 'Task não foi encontrada',
