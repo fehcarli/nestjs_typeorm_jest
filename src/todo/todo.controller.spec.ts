@@ -6,9 +6,9 @@ import { TodoController } from './todo.controller';
 import { TodoService } from './todo.service';
 
 const todoEntityList: TodoEntity[] = [
-  new TodoEntity({ uuid: '1', task: 'task-1', isDone: 0 }),
-  new TodoEntity({ uuid: '2', task: 'task-2', isDone: 0 }),
-  new TodoEntity({ uuid: '3', task: 'task-3', isDone: 0 }),
+  new TodoEntity({ uuid: '11b68d34-0ada-4181-84dc-6453300770aa', task: 'task-1', isDone: 0 }),
+  new TodoEntity({ uuid: '99b98955-7123-4a39-9d2d-84cdd2b26ac8', task: 'task-2', isDone: 0 }),
+  new TodoEntity({ uuid: 'b39dbe45-c60a-45af-9599-c1d79f3b9994', task: 'task-3', isDone: 0 }),
 ];
 
 const newTodoEntity = new TodoEntity({ task: 'new-task', isDone: 0 });
@@ -26,11 +26,11 @@ describe('TodoController', () => {
         {
           provide: TodoService,
           useValue: {
-            findAll: jest.fn().mockResolvedValue(todoEntityList),
             create: jest.fn().mockResolvedValue(newTodoEntity),
-            findOneOrFail: jest.fn().mockResolvedValue(todoEntityList[0]),
+            findAll: jest.fn().mockResolvedValue(todoEntityList),
+            findOne: jest.fn().mockResolvedValue(todoEntityList[0]),
             update: jest.fn().mockResolvedValue(updatedTodoEntity),
-            deleteById: jest.fn().mockResolvedValue(undefined),
+            remove: jest.fn().mockResolvedValue(undefined),
           },
         },
       ],
@@ -43,26 +43,6 @@ describe('TodoController', () => {
   it('should be defined', () => {
     expect(todoController).toBeDefined();
     expect(todoService).toBeDefined();
-  });
-
-  describe('index', () => {
-    it('should return a todo list entity successfully', async () => {
-      // Act
-      const result = await todoController.findAll();
-
-      // Assert
-      expect(result).toEqual(todoEntityList);
-      expect(typeof result).toEqual('object');
-      expect(todoService.findAll).toHaveBeenCalledTimes(1);
-    });
-
-    it('should throw an exception', () => {
-      // Arrange
-      jest.spyOn(todoService, 'findAll').mockRejectedValueOnce(new Error());
-
-      // Assert
-      expect(todoController.findAll()).rejects.toThrowError();
-    });
   });
 
   describe('create', () => {
@@ -93,6 +73,26 @@ describe('TodoController', () => {
 
       // Assert
       expect(todoController.create(body)).rejects.toThrowError();
+    });
+  });
+
+  describe('findAll', () => {
+    it('should return a todo list entity successfully', async () => {
+      // Act
+      const result = await todoController.findAll();
+
+      // Assert
+      expect(result).toEqual(todoEntityList);
+      expect(typeof result).toEqual('object');
+      expect(todoService.findAll).toHaveBeenCalledTimes(1);
+    });
+
+    it('should throw an exception', () => {
+      // Arrange
+      jest.spyOn(todoService, 'findAll').mockRejectedValueOnce(new Error());
+
+      // Assert
+      expect(todoController.findAll()).rejects.toThrowError();
     });
   });
 

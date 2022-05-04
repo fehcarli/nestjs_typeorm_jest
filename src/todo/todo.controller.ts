@@ -91,6 +91,6 @@ export class TodoController {
     description: 'Task não foi encontrada',
   })
   remove(@Param('uuid', new ParseUUIDPipe()) uuid: string) {
-    this.todoService.remove(uuid);
+    return this.todoService.remove(uuid);
   }
 }

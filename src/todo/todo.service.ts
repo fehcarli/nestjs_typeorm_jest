@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateTodoDto } from './dto/create-todo.dto';
@@ -40,14 +40,19 @@ export class TodoService {
     if(!task){
       throw new NotFoundException();
     }
+    this.todoRepository.merge(task, updateTodoDto);
     await this.todoRepository.update(uuid, updateTodoDto);
     return task;
   }
 
   async remove(uuid: string) {
-    const book = await this.todoRepository.delete(uuid);
-    if(!book.affected){
-      throw new HttpException('Book not found', HttpStatus.NOT_FOUND);
+    const task = await this.todoRepository.findOne({
+      where: {uuid}
+    });
+    if(!task){
+      throw new NotFoundException();
     }
+    await this.todoRepository.softDelete(uuid);
+    return task;
   }
 }
