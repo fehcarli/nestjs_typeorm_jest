@@ -7,6 +7,7 @@ import { TodoEntity } from './entity/todo.entity';
 
 @Injectable()
 export class TodoService {
+
   constructor(
     @InjectRepository(TodoEntity)
     private readonly todoRepository: Repository<TodoEntity>,
@@ -17,7 +18,9 @@ export class TodoService {
   }
 
   async findAll(): Promise<TodoEntity[]> {
-    return await this.todoRepository.find();
+    return await this.todoRepository.find({
+      createdAt: 'DESC'
+    });
   }
 
   async findOne(uuid: string): Promise<TodoEntity> {
